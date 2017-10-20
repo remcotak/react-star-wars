@@ -1,0 +1,40 @@
+@import '../../styles/variables'
+
+body
+  margin: 0px 8px
+  padding: 0px
+
+html
+  box-sizing: border-box
+  background-color: $background-color
+  color: $primary-color
+  font-family: DIN, Helvetica, Arial, sans-serif
+  margin: 0px
+  padding: 0px
+
+h1, h2, h3
+  padding: 0px
+  margin: 0px
+  text-transform: uppercase
+
+h2
+  color: $star-wars-yellow
+
+a
+  color: inherit
+  text-decoration: inherit
+
+  &:hover
+    color: $hover-color
+
+.container
+  display: flex
+  flex-direction: column
+  min-height: 100vh
+  max-width: 900px
+
+.center
+  margin: 0px auto
+
+main
+  flex: 1
