@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import cn from 'classnames';
 import { fetchFilmsIfNeeded, orderFilms } from 'actions';
 
 import './Films.sass';
@@ -18,19 +19,39 @@ class Films extends React.Component {
 
   render() {
     const { isFetching } = this.props;
+    // Fill array with booleans for easier classname declaration
+    const order = {
+      releaseDate: this.props.orderBy === 'release_date',
+      episodeId: this.props.orderBy === 'episode_id',
+    };
     const films = this.props.films || [];
 
     return (
       <div className="films">
         <div className="films__header">
           <h2>Movies</h2>
-          { films.length !== 0 &&
-            <span>Movie posters by <a href="http://abonny.deviantart.com/" target="_blank">Abonny</a></span>
-          }
-          <span className="films__order">Order by:
-            <a onClick={() => { this.orderFilms('release_date'); }}>Release date</a> |
-            <a onClick={() => { this.orderFilms('episode_id'); }} className="inactive">Episode number</a>
-          </span>
+          <div className="films__sub">
+            <span>
+              Order by:
+              <a
+                href="#"
+                onClick={() => { this.orderFilms('release_date'); }}
+                className={cn('films__order', { 'films__order--active': order.releaseDate })}
+              >
+                release date
+              </a>
+              <a
+                href="#"
+                onClick={() => { this.orderFilms('episode_id'); }}
+                className={cn('films__order', { 'films__order--active': order.episodeId })}
+              >
+                episode number
+              </a>
+            </span>
+            { films.length !== 0 &&
+              <span>Movie posters by<a href="http://abonny.deviantart.com/" target="_blank">Abonny</a></span>
+            }
+          </div>
         </div>
         { films.length !== 0 &&
           // If the store has been filled show content
@@ -68,6 +89,7 @@ class Films extends React.Component {
 export default connect(
   state => ({
     isFetching: state.films.isFetching,
+    orderBy: state.films.orderBy,
     films: state.films.films.results,
   }),
   { fetchFilmsIfNeeded, orderFilms },
