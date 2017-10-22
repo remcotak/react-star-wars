@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import cn from 'classnames';
-import { fetchFilmsIfNeeded, orderFilms } from 'actions';
+import { fetchFilmsIfNeeded, sortFilms } from 'actions';
 
 import './Films.sass';
 
@@ -12,17 +12,17 @@ class Films extends React.Component {
     this.props.fetchFilmsIfNeeded();
   }
 
-  orderFilms(orderBy) {
-    console.log(orderBy);
-    this.props.orderFilms(orderBy);
+  sortFilms(sortBy) {
+    console.log(sortBy);
+    this.props.sortFilms(sortBy);
   }
 
   render() {
     const { isFetching } = this.props;
     // Fill array with booleans for easier classname declaration
-    const order = {
-      releaseDate: this.props.orderBy === 'release_date',
-      episodeId: this.props.orderBy === 'episode_id',
+    const sort = {
+      releaseDate: this.props.sortBy === 'release_date',
+      episodeId: this.props.sortBy === 'episode_id',
     };
     const films = this.props.films || [];
 
@@ -32,18 +32,18 @@ class Films extends React.Component {
           <h2>Movies</h2>
           <div className="films__sub">
             <span>
-              Order by:
+              Sort by:
               <a
                 href="#"
-                onClick={() => { this.orderFilms('release_date'); }}
-                className={cn('films__order', { 'films__order--active': order.releaseDate })}
+                onClick={() => { this.sortFilms('release_date'); }}
+                className={cn('films__sort', { 'films__sort--active': sort.releaseDate })}
               >
                 release date
               </a>
               <a
                 href="#"
-                onClick={() => { this.orderFilms('episode_id'); }}
-                className={cn('films__order', { 'films__order--active': order.episodeId })}
+                onClick={() => { this.sortFilms('episode_id'); }}
+                className={cn('films__sort', { 'films__sort--active': sort.episodeId })}
               >
                 episode number
               </a>
@@ -89,8 +89,8 @@ class Films extends React.Component {
 export default connect(
   state => ({
     isFetching: state.films.isFetching,
-    orderBy: state.films.orderBy,
+    sortBy: state.films.sortBy,
     films: state.films.films.results,
   }),
-  { fetchFilmsIfNeeded, orderFilms },
+  { fetchFilmsIfNeeded, sortFilms },
 )(Films);

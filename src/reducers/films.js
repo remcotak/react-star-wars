@@ -3,7 +3,7 @@ import {
   FETCH_FILMS_REQUEST,
   FETCH_FILMS_SUCCESS,
   FETCH_FILMS_ERROR,
-  ORDER_FILMS,
+  SORT_FILMS,
 } from '../actions';
 
 // Set the initialstate so the structure of the store is clear
@@ -11,7 +11,7 @@ const initialState = {
   isFetching: false,
   hasError: false,
   films: {},
-  orderBy: 'release_date',
+  sortBy: 'release_date',
 };
 
 // Films reducer
@@ -31,9 +31,9 @@ const films = (state = initialState, action) => {
         isFetching: false,
         hasError: true,
       });
-    case ORDER_FILMS:
+    case SORT_FILMS:
       return Object.assign({}, state, {
-        orderBy: action.orderBy,
+        sortBy: action.sortBy,
       });
     default:
       return state;
