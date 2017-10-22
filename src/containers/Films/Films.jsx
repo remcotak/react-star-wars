@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchFilmsIfNeeded } from 'actions';
+import { fetchFilmsIfNeeded, orderFilms } from 'actions';
 
 import './Films.sass';
 
@@ -9,6 +9,11 @@ class Films extends React.Component {
   componentDidMount() {
     // Check if the films are in the store.
     this.props.fetchFilmsIfNeeded();
+  }
+
+  orderFilms(orderBy) {
+    console.log(orderBy);
+    this.props.orderFilms(orderBy);
   }
 
   render() {
@@ -22,6 +27,10 @@ class Films extends React.Component {
           { films.length !== 0 &&
             <span>Movie posters by <a href="http://abonny.deviantart.com/" target="_blank">Abonny</a></span>
           }
+          <span className="films__order">Order by:
+            <a onClick={() => { this.orderFilms('release_date'); }}>Release date</a> |
+            <a onClick={() => { this.orderFilms('episode_id'); }} className="inactive">Episode number</a>
+          </span>
         </div>
         { films.length !== 0 &&
           // If the store has been filled show content
@@ -61,5 +70,5 @@ export default connect(
     isFetching: state.films.isFetching,
     films: state.films.films.results,
   }),
-  { fetchFilmsIfNeeded },
+  { fetchFilmsIfNeeded, orderFilms },
 )(Films);
