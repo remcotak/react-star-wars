@@ -4,6 +4,7 @@ import fetch from 'isomorphic-fetch';
 export const FETCH_FILMS_REQUEST = 'FETCH_FILMS_REQUEST';
 export const FETCH_FILMS_SUCCESS = 'FETCH_FILMS_SUCCESS';
 export const FETCH_FILMS_ERROR = 'FETCH_FILMS_ERROR';
+export const SORT_FILMS = 'SORT_FILMS';
 
 // Action creators
 export const fetchFilmsRequest = () => {
@@ -16,6 +17,10 @@ export const fetchFilmsSuccess = (films) => {
 
 export const fetchFilmsError = (error) => {
   return { type: FETCH_FILMS_ERROR, error };
+};
+
+export const sortFilms = (sortBy) => {
+  return { type: SORT_FILMS, sortBy };
 };
 
 // Check the state if the films are available
