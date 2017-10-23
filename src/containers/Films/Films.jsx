@@ -4,11 +4,29 @@ import cn from 'classnames';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchFilmsIfNeeded, sortFilms } from 'actions';
+import ImageEpisode1 from '../../static/img/episode_1.jpg';
+import ImageEpisode2 from '../../static/img/episode_2.jpg';
+import ImageEpisode3 from '../../static/img/episode_3.jpg';
+import ImageEpisode4 from '../../static/img/episode_4.jpg';
+import ImageEpisode5 from '../../static/img/episode_5.jpg';
+import ImageEpisode6 from '../../static/img/episode_6.jpg';
+import ImageEpisode7 from '../../static/img/episode_7.jpg';
 
 import './Films.sass';
 
+// Keep a reference to the images in an array to dynamically load the correct image.
+const images = {
+  1: ImageEpisode1,
+  2: ImageEpisode2,
+  3: ImageEpisode3,
+  4: ImageEpisode4,
+  5: ImageEpisode5,
+  6: ImageEpisode6,
+  7: ImageEpisode7,
+};
+
 // Sorting the films based on the release_date values.
-// Using moment library for easy comparison
+// Using moment library for easy comparison.
 const sortByReleaseDate = (a, b) => {
   if (moment(a.release_date).isSame(b.release_date)) {
     return 0;
@@ -42,15 +60,24 @@ class Films extends React.Component {
   componentDidMount() {
     // Check if the films are in the store.
     this.props.fetchFilmsIfNeeded();
+
+    // If the films are already fetched, handle the sorting.
+    if (this.props.films) {
+      this.setState({
+        films: handleSort(this.props.films, this.props.sortBy),
+      });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
+    // When the films are fetched, handle the sorting.
     if (!this.props.films && nextProps.films) {
       this.setState({
         films: handleSort(nextProps.films, nextProps.sortBy),
       });
     }
 
+    // When a changed sortBy prop is received, handle the sorting.
     if (this.props.sortBy !== nextProps.sortBy) {
       this.setState({
         films: handleSort(nextProps.films, nextProps.sortBy),
@@ -60,7 +87,7 @@ class Films extends React.Component {
 
   render() {
     const { isFetching, sortBy } = this.props;
-    // Fill array with booleans for easier classname declaration
+    // Fill array with booleans for easier classname declaration.
     const sort = {
       releaseDate: sortBy === 'release_date',
       episodeId: sortBy === 'episode_id',
@@ -94,14 +121,10 @@ class Films extends React.Component {
           </div>
         </div>
         { this.state.films.length !== 0 &&
-          // If the store has been filled show content
+          // If the store has been filled show content.
           <div>
             <ul className="films__list">
               {this.state.films.map((film) => {
-                // This part needs some more attention,
-                // need to find a way to import the images dynamically without require.
-                const image = require(`../../static/img/episode_${film.episode_id}.jpg`);
-
                 return (
                   <Link
                     key={film.episode_id}
@@ -109,7 +132,7 @@ class Films extends React.Component {
                     className="films__item"
                   >
                     <li>
-                      <img src={image} />
+                      <img src={images[film.episode_id]} />
                     </li>
                   </Link>
                 );
@@ -118,7 +141,7 @@ class Films extends React.Component {
           </div>
         }
         { !isFetching && this.state.films.length === 0 &&
-          // If the API call failed, show this message
+          // If the API call failed, show this message.
           <span>No films available there were, again later you try.</span>
         }
       </div>
