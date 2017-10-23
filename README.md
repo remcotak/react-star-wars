@@ -16,7 +16,7 @@ The application contains:
 ## Installation
 `yarn install` / `npm install`
 
-To view the application run `yarn start` / `npm start` in your console. This will the webpack dev server and open the application in your browser.
+To view the application run `yarn start` / `npm start` in your console. This will start the webpack dev server and open the application in your browser.
 
 ## Notes
 This application is far from done. The base has been set but I will continue to be working on the application.
