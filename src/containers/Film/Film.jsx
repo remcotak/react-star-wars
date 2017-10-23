@@ -1,8 +1,26 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchFilmsIfNeeded } from 'actions';
+import ImageEpisode1 from '../../static/img/episode_1.jpg';
+import ImageEpisode2 from '../../static/img/episode_2.jpg';
+import ImageEpisode3 from '../../static/img/episode_3.jpg';
+import ImageEpisode4 from '../../static/img/episode_4.jpg';
+import ImageEpisode5 from '../../static/img/episode_5.jpg';
+import ImageEpisode6 from '../../static/img/episode_6.jpg';
+import ImageEpisode7 from '../../static/img/episode_7.jpg';
 
 import './Film.sass';
+
+// Keep a reference to the images in an array to dynamically load the correct image.
+const images = {
+  1: ImageEpisode1,
+  2: ImageEpisode2,
+  3: ImageEpisode3,
+  4: ImageEpisode4,
+  5: ImageEpisode5,
+  6: ImageEpisode6,
+  7: ImageEpisode7,
+};
 
 // Get the current film(episode) from the films object.
 const getFilm = (id, films) => {
@@ -39,15 +57,12 @@ class Film extends React.Component {
   }
 
   render() {
-    // Set the image source based on the current episode_id
-    const image = require(`../../static/img/episode_${this.props.match.params.id}.jpg`);
-
     return (
       <div>
         { this.state.film.length !== 0 &&
-          // If the store has been filled show the content
+          // If the store has been filled show the content.
           <div className="film">
-            <img src={image} />
+            <img src={images[this.state.film.episode_id]} />
             <div className="film__header">
               <h2>{this.state.film.title}</h2>
               <h3>Episode {this.state.film.episode_id}</h3>
@@ -64,7 +79,7 @@ class Film extends React.Component {
           </div>
         }
         { this.state.film.length === 0 &&
-          // If the API call failed, show this message
+          // If the API call failed, show this message.
           <span>No film available there is, again later you try.</span>
         }
       </div>
