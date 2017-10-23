@@ -4,12 +4,29 @@
   &__header
     display: flex
     flex-direction: row
+    flex-wrap: wrap
     align-items: center
     justify-content: space-between
     padding: 20px 0px
 
     a
       text-decoration: underline
+
+  &__sub
+    display: flex
+    flex-direction: row
+    justify-content: space-between
+    width: 100%
+
+    a
+      padding: 0px 7px 0px 5px
+
+  &__sort
+    &:not(.films__sort--active)
+      text-decoration: none
+
+    &:not(:last-child)
+      border-right: 1px solid white
 
   &__list
     display: flex
