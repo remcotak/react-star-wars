@@ -16,12 +16,23 @@ const FilmDetail = ({
         </div>
         <div className="film__intro">
           <span>{film.opening_crawl}</span>
+          <div className="film__info">
+            <span><b>Release date:</b> {film.release_date}</span>
+            <span><b>Director:</b> {film.director}</span>
+            <span><b>Producer:</b> {film.producer}</span>
+          </div>
         </div>
         <div className="categorie">
-          <span className="categorie__title">General Information //</span>
-          <p>Release date: {film.release_date}</p>
-          <p>Director: {film.director}</p>
-          <p>Producer: {film.producer}</p>
+          <span className="categorie__title">Characters //</span>
+            <ul>
+              { film.characters.map((character, index) => {
+                return (
+                  <li key={index}>
+                    {character}
+                  </li>
+                );
+              })}
+            </ul>
         </div>
       </div>
     }
