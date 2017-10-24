@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchFilmsIfNeeded } from 'actions';
-import ImageEpisode1 from '../../static/img/episode_1.jpg';
-import ImageEpisode2 from '../../static/img/episode_2.jpg';
-import ImageEpisode3 from '../../static/img/episode_3.jpg';
-import ImageEpisode4 from '../../static/img/episode_4.jpg';
-import ImageEpisode5 from '../../static/img/episode_5.jpg';
-import ImageEpisode6 from '../../static/img/episode_6.jpg';
-import ImageEpisode7 from '../../static/img/episode_7.jpg';
+import ImageEpisode1 from 'img/episode_1.jpg';
+import ImageEpisode2 from 'img/episode_2.jpg';
+import ImageEpisode3 from 'img/episode_3.jpg';
+import ImageEpisode4 from 'img/episode_4.jpg';
+import ImageEpisode5 from 'img/episode_5.jpg';
+import ImageEpisode6 from 'img/episode_6.jpg';
+import ImageEpisode7 from 'img/episode_7.jpg';
 
 import './Film.sass';
 
