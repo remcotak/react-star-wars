@@ -1,10 +1,11 @@
 import { combineReducers } from 'redux';
-import films from './films';
+import films from './filmsReducer';
+import characters from './charactersReducer';
 
 // Combine reducers
-// For now its just one, will be more in the future
 const rootReducer = combineReducers({
   films,
+  characters,
 });
 
 export default rootReducer;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchFilmsIfNeeded } from 'actions';
+import { fetchFilmsIfNeeded, fetchCharactersIfNeeded } from 'actions';
 import { FilmDetail } from 'components';
 import ImageEpisode1 from 'img/episode_1.jpg';
 import ImageEpisode2 from 'img/episode_2.jpg';
@@ -24,16 +24,14 @@ const images = {
 // Get the current film(episode) from the films object.
 const getFilm = (id, films) => {
   const episodeId = parseInt(id, 10);
-  return films.filter(film => film.episode_id === episodeId)[0];
+  return films.find(film => film.episode_id === episodeId);
 };
 
 class Film extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      film: [],
-    };
+    this.state = {};
   }
 
   componentDidMount() {
@@ -44,15 +42,29 @@ class Film extends React.Component {
       // Put the current film in the state.
       this.setState({
         film: getFilm(this.props.match.params.id, this.props.films),
+      }, () => {
+        this.props.fetchCharactersIfNeeded(this.state.film.characters);
       });
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    // Update state whenever a prop has changed.
-    this.setState({
-      film: getFilm(nextProps.match.params.id, nextProps.films),
-    });
+    // Update the state when the current episode id has changed
+    if (this.props.match.params.id !== nextProps.match.params.id) {
+      this.setState({
+        film: getFilm(nextProps.match.params.id, nextProps.films),
+      });
+    }
+
+    // Set the currect film in the state when the films are fetched
+    // After the state has been set check for the characters
+    if (this.props.films.count !== nextProps.films.count) {
+      this.setState({
+        film: getFilm(nextProps.match.params.id, nextProps.films),
+      }, () => {
+        this.props.fetchCharactersIfNeeded(this.state.film.characters);
+      });
+    }
   }
 
   render() {
@@ -60,7 +72,28 @@ class Film extends React.Component {
       <FilmDetail
         film={this.state.film}
         image={images[this.props.match.params.id]}
-      />
+      >
+        { this.state.film && this.props.characters &&
+          <div className="categorie">
+            <span className="categorie__title">Characters //</span>
+              <ul>
+                { this.state.film.characters.map((characterURL) => {
+                  const character = this.props.characters.find(storeCharacter =>
+                    storeCharacter.url === characterURL);
+                  if (character) {
+                    return (
+                      <li key={character.url}>
+                        {character.name}
+                      </li>
+                    );
+                  }
+
+                  return false;
+                })}
+              </ul>
+          </div>
+        }
+      </FilmDetail>
     );
   }
 }
@@ -68,6 +101,7 @@ class Film extends React.Component {
 export default connect(
   state => ({
     films: state.films.films.results,
+    characters: state.characters.characters,
   }),
-  { fetchFilmsIfNeeded },
+  { fetchFilmsIfNeeded, fetchCharactersIfNeeded },
 )(Film);

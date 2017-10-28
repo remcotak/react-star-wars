@@ -10,7 +10,7 @@ import {
 const initialState = {
   isFetching: false,
   hasError: false,
-  films: {},
+  films: [],
   sortBy: 'release_date',
 };
 

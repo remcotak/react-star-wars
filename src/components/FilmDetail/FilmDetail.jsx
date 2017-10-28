@@ -3,10 +3,10 @@ import React from 'react';
 import './FilmDetail.sass';
 
 const FilmDetail = ({
-  film, image,
+  film, image, children,
 }) => (
   <div>
-    { film.length !== 0 &&
+    { film && film.length !== 0 &&
       // If the store has been filled show the content.
       <div className="film">
         <img src={image} />
@@ -22,21 +22,10 @@ const FilmDetail = ({
             <span><b>Producer:</b> {film.producer}</span>
           </div>
         </div>
-        <div className="categorie">
-          <span className="categorie__title">Characters //</span>
-            <ul>
-              { film.characters.map((character, index) => {
-                return (
-                  <li key={index}>
-                    {character}
-                  </li>
-                );
-              })}
-            </ul>
-        </div>
+        {children}
       </div>
     }
-    { film.length === 0 &&
+    { !film &&
       // If the API call failed, show this message.
       <span>No film available there is, again later you try.</span>
     }
